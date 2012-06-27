@@ -1536,9 +1536,6 @@ else
 			),
 		),
 		'PRIMARY KEY'	=> array('id'),
-		'UNIQUE KEYS'	=> array(
-			'username_idx'		=> array('username')
-		),
 		'INDEXES'		=> array(
 			'registered_idx'	=> array('registered')
 		)
