@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright (C) 2008-2012 FluxBB
  * based on code by Rickard Andersson copyright (C) 2002-2008 PunBB
@@ -1048,6 +1047,20 @@ function random_pass($len)
 function pun_hash($str)
 {
 	return sha1($str);
+}
+
+function symfony_hash($password)
+{
+    require_once PUN_ROOT.'lib/passwordHash.php';
+    $hasher = new PasswordHash();
+    return $hasher->HashPassword($password);
+}
+
+function check_symfony_hash($password, $hash)
+{
+    require_once PUN_ROOT.'lib/passwordHash.php';
+    $hasher = new PasswordHash();
+    return $hasher->CheckPassword($password, $hash);
 }
 
 

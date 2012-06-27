@@ -100,7 +100,7 @@ if ($action == 'change_pass')
 
 		if (!empty($cur_user['password']))
 		{
-			$old_password_hash = pun_hash($old_password);
+			$old_password_hash = symfony_hash($old_password);
 
 			if ($cur_user['password'] == $old_password_hash || $pun_user['is_admmod'])
 				$authorized = true;
@@ -109,7 +109,7 @@ if ($action == 'change_pass')
 		if (!$authorized)
 			message($lang_profile['Wrong pass']);
 
-		$new_password_hash = pun_hash($new_password1);
+		$new_password_hash = symfony_hash($new_password1);
 
 		$db->query('UPDATE '.$db->prefix.'users SET password=\''.$new_password_hash.'\''.(!empty($cur_user['salt']) ? ', salt=NULL' : '').' WHERE id='.$id) or error('Unable to update password', __FILE__, __LINE__, $db->error());
 
@@ -193,7 +193,7 @@ else if ($action == 'change_email')
 	}
 	else if (isset($_POST['form_sent']))
 	{
-		if (pun_hash($_POST['req_password']) !== $pun_user['password'])
+		if (symfony_hash($_POST['req_password']) !== $pun_user['password'])
 			message($lang_profile['Wrong pass']);
 
 		require PUN_ROOT.'include/email.php';
