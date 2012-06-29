@@ -1541,9 +1541,6 @@ else
 		)
 	);
 
-	if ($db_type == 'mysql' || $db_type == 'mysqli' || $db_type == 'mysql_innodb' || $db_type == 'mysqli_innodb')
-		$schema['UNIQUE KEYS']['username_idx'] = array('username(25)');
-
 	$db->create_table('users', $schema) or error('Unable to create users table', __FILE__, __LINE__, $db->error());
 
 
