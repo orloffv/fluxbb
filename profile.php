@@ -1005,12 +1005,13 @@ if ($user['signature'] != '')
 
 
 // View or edit?
-if ($pun_user['id'] != $id &&																	// If we arent the user (i.e. editing your own profile)
+/*if ($pun_user['id'] != $id &&																	// If we arent the user (i.e. editing your own profile)
 	(!$pun_user['is_admmod'] ||																	// and we are not an admin or mod
 	($pun_user['g_id'] != PUN_ADMIN &&															// or we aren't an admin and ...
 	($pun_user['g_mod_edit_users'] == '0' ||													// mods aren't allowed to edit users
 	$user['g_id'] == PUN_ADMIN ||																// or the user is an admin
-	$user['g_moderator'] == '1'))))																// or the user is another mod
+	$user['g_moderator'] == '1'))))																// or the user is another mod*/
+if ($pun_user['g_id'] != PUN_ADMIN)
 {
 	$user_personal = array();
 
