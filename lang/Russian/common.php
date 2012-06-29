@@ -125,7 +125,7 @@ $lang_common = array(
 'Unstick topic'						=>	'Открепить тему',
 'Stick topic'						=>	'Закрепить тему',
 'Moderate forum'					=>	'Модерировать форум',
-'Powered by'						=>	'Работает на %s.<br/> Перевод <a href="http://my.docs.ws/pages/FluxBB_RU_LNG" title="Русский языковой пакет для форума FluxBB">FluxBB RU</a>.',
+'Powered by'						=>	'<span style="font-size: 80%;">Работает на %s.</span>',
 
 // Debug information
 'Debug table'						=>	'Отладочная информация',
