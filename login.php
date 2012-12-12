@@ -51,7 +51,7 @@ if (isset($_POST['form_sent']) && $action == 'in')
 		generate_users_info_cache();
 	}
 
-	// Remove this users guest entry from the online list
+	// Remove this user's guest entry from the online list
 	$db->query('DELETE FROM '.$db->prefix.'online WHERE ident=\''.$db->escape(get_remote_address()).'\'') or error('Unable to delete from online list', __FILE__, __LINE__, $db->error());
 
 	$expire = ($save_pass == '1') ? time() + 1209600 : time() + $pun_config['o_timeout_visit'];
@@ -60,7 +60,7 @@ if (isset($_POST['form_sent']) && $action == 'in')
 	// Reset tracked topics
 	set_tracked_topics(null);
 
-	redirect(htmlspecialchars($_POST['redirect_url']), $lang_login['Login redirect']);
+	redirect(pun_htmlspecialchars($_POST['redirect_url']), $lang_login['Login redirect']);
 }
 
 
@@ -88,7 +88,10 @@ else if ($action == 'out')
 else if ($action == 'forget' || $action == 'forget_2')
 {
 	if (!$pun_user['is_guest'])
+	{
 		header('Location: index.php');
+		exit;
+	}
 
 	if (isset($_POST['form_sent']))
 	{
@@ -125,7 +128,7 @@ else if ($action == 'forget' || $action == 'forget_2')
 				while ($cur_hit = $db->fetch_assoc($result))
 				{
 					if ($cur_hit['last_email_sent'] != '' && (time() - $cur_hit['last_email_sent']) < 3600 && (time() - $cur_hit['last_email_sent']) >= 0)
-						message($lang_login['Email flood'], true);
+						message(sprintf($lang_login['Email flood'], intval((3600 - (time() - $cur_hit['last_email_sent'])) / 60)), true);
 
 					// Generate a new password and a new password activation code
 					$new_password = random_pass(8);
@@ -204,7 +207,10 @@ if (!empty($errors))
 
 
 if (!$pun_user['is_guest'])
+{
 	header('Location: index.php');
+	exit;
+}
 
 // Try to determine if the data in HTTP_REFERER is valid (if not, we redirect to index.php after login)
 if (!empty($_SERVER['HTTP_REFERER']))
@@ -233,6 +239,8 @@ if (!empty($_SERVER['HTTP_REFERER']))
 
 if (!isset($redirect_url))
 	$redirect_url = 'index.php';
+else if (preg_match('%viewtopic\.php\?pid=(\d+)$%', $redirect_url, $matches))
+	$redirect_url .= '#p'.$matches[1];
 
 $page_title = array(pun_htmlspecialchars($pun_config['o_board_title']), $lang_common['Login']);
 $required_fields = array('req_username' => $lang_common['Username'], 'req_password' => $lang_common['Password']);

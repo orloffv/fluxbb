@@ -61,7 +61,7 @@ if (isset($_POST['form_sent']))
 {
 	// Flood protection
 	if (!isset($_POST['preview']) && $pun_user['last_post'] != '' && (time() - $pun_user['last_post']) < $pun_user['g_post_flood'])
-		$errors[] = $lang_post['Flood start'].' '.$pun_user['g_post_flood'].' '.$lang_post['flood end'];
+		$errors[] = sprintf($lang_post['Flood start'], $pun_user['g_post_flood'], $pun_user['g_post_flood'] - (time() - $pun_user['last_post']));
 
 	// If it's a new topic
 	if ($fid)
@@ -108,7 +108,7 @@ if (isset($_POST['form_sent']))
 				$errors[] = $lang_common['Invalid email'];
 
 			// Check if it's a banned email address
-			// we should only check guests because members addresses are already verified
+			// we should only check guests because members' addresses are already verified
 			if ($pun_user['is_guest'] && is_banned_email($email))
 			{
 				if ($pun_config['p_allow_banned_email'] == '0')
@@ -647,7 +647,7 @@ if ($fid): ?>
 <?php
 
 $checkboxes = array();
-if ($is_admmod)
+if ($fid && $is_admmod)
 	$checkboxes[] = '<label><input type="checkbox" name="stick_topic" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['stick_topic']) ? ' checked="checked"' : '').' />'.$lang_common['Stick topic'].'<br /></label>';
 
 if (!$pun_user['is_guest'])
